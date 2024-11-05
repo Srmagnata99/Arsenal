@@ -288,17 +288,21 @@ if false then
 
 	local Skeletons = {}
 	for _, Player in next, game.Players:GetChildren() do
-		if Player ~= LocalPlayer then
+		if Player ~= LocalPlayer and Player.TeamColor ~= LocalPlayer.TeamColor then
 			table.insert(Skeletons, Library:NewSkeleton(Player, true));
 		end
 	end
+
 	game.Players.PlayerAdded:Connect(function(Player)
-		table.insert(Skeletons, Library:NewSkeleton(Player, true));
+		if Player ~= LocalPlayer and Player.TeamColor ~= LocalPlayer.TeamColor then
+			table.insert(Skeletons, Library:NewSkeleton(Player, true));
+		end
 	end)
 
 	while true do
 		for _, skeleton in next, Skeletons do
-			skeleton:SetColor(Color3.fromRGB(skeleton.Player.TeamColor == LocalPlayer.TeamColor and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 0, 0)));
+			-- Atualize a cor do esqueleto dependendo do time
+			skeleton:SetColor(skeleton.Player.TeamColor == LocalPlayer.TeamColor and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 0, 0));
 			skeleton:SetThickness(4);
 		end
 
